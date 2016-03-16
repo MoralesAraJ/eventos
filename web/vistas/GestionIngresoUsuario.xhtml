@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="../plantilla/principal.xhtml">
+
+            <ui:define name="content">
+                <h:form id="cliente">
+                    <p:growl autoUpdate="true"></p:growl>
+                    <p:panel id="panelCliente">
+                        <h3>Gestion Ingreso Cliente</h3>
+                        <h:panelGrid columns="1">
+
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="Identificación" for="txtIdentificacion">
+                                </h:outputLabel>
+                                <p:inputText id="txtIdentificacion" 
+                                             required="true"
+                                             value="#{asistentesController.asistentes.identificacion}">
+                                </p:inputText>
+
+                                <h:outputLabel value="Nombre" for="txtNombre"></h:outputLabel>
+                                <p:inputText id="txtNombre" 
+                                             required="true"
+                                             value="#{asistentesController.asistentes.nombre}">
+                                </p:inputText>
+
+                                <h:outputLabel value="Apellido" for="txtApellido"></h:outputLabel>
+                                <p:inputText id="txtApellido" 
+                                             required="true"
+                                             value="#{asistentesController.asistentes.apellido}">
+                                </p:inputText>
+
+                                <h:outputLabel value="Correo Electrónico" for="txtEmail"></h:outputLabel>
+                                <p:inputText id="txtEmail" 
+                                             required="true"
+                                             value="#{asistentesController.asistentes.correo}"></p:inputText>
+                            </h:panelGrid>
+
+                            <h:panelGrid id="password" columns="2">
+                                <h:outputLabel value="Contraseña" for="txtPassword1"></h:outputLabel>
+                                <p:password id="txtPassword1" 
+                                            match="txtPassword2" required="true"
+                                            value="#{asistentesController.asistentes.contrasena}"></p:password>
+
+                                <h:outputLabel value="Confirme Contraseña" for="txtPassword2"></h:outputLabel>
+                                <p:password id="txtPassword2" required="true"></p:password>
+
+                                <h:outputLabel value="Administrador" for="txtPassword2"></h:outputLabel>
+                                <p:selectBooleanButton id="value2" value="#{asistentesController.asistentes.admin}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                   
+                                </p:selectBooleanButton>
+                            </h:panelGrid>
+                            <br/> 
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2">
+                            <p:menu>
+                                <p:menuitem  value="Inicio" outcome="/index"/>
+                            </p:menu>
+                            <p:commandButton value="Ingresar Cliente" 
+                                             action="#{asistentesController.ingresarUsuario()}"
+                                             update="password">
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

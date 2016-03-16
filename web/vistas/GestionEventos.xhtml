@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../plantilla/principal.xhtml">
+
+            <ui:define name="content">
+                <p:outputLabel value="#{controllerSession.asistentes.admin ? 'Amin':'User'}"/>
+                <p:panel rendered="#{controllerSession.asistentes.admin}">
+                    <p:commandButton value="Nuevo Evento" action="#{controllerEventos.nuevoEvento()}" type="button" onclick="PF('dlg2').show();" />
+                    <p:commandButton value="Nuevo Asistente" action="#{controllerEventos.nuevoAsistente()}" type="button" onclick="PF('dlg3').show();" />
+                    <p:dialog header="Modal Dialog" widgetVar="dlg3" modal="true">
+
+
+                        <h:form id="form-create-asist">
+
+                            <h1><h:outputText value="Crear Asistente"/></h1>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Nombre:" for="nombre" />
+                                <p:inputText id="nombre" value="#{controllerEventos.asistentes.nombre}" title="Nombre" />
+                                <p:outputLabel value="Apellido:" for="apellido" />
+                                <p:inputText id="apellido" value="#{controllerEventos.asistentes.apellido}" title="Apellido" />
+                                <p:outputLabel value="Identificacion:" for="identificacion" />
+                                <p:inputText id="identificacion" value="#{controllerEventos.asistentes.identificacion}" title="Identificacion" />
+                                <p:outputLabel value="Correo:" for="correo" />
+                                <p:inputText id="correo" value="#{controllerEventos.asistentes.correo}" title="Correo" />
+                                <p:outputLabel value="Contrasena:" for="contrasena" />
+                                <p:password id="contrasena" value="#{controllerEventos.asistentes.contrasena}" title="Contrasena" />
+                            </h:panelGrid>
+                            <p:commandButton value="Guardar" action="#{controllerEventos.guardarAsistente()}" onclick="PF('dlg3').hide();"/>
+                        </h:form>
+
+                    </p:dialog>  
+
+                    <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true">
+
+
+                        <h:form id="form-create-evento">
+                            <h1><h:outputText value="Crear Evento"/></h1>
+                            <p:panelGrid columns="2">                                
+                                <p:outputLabel value="Nombre:" for="nombre" />
+                                <p:inputText id="nombre" value="#{controllerEventos.eventos.nombre}" title="Nombre" />
+                                <p:outputLabel value="Fecha:" for="fecha" />
+                                <p:calendar id="fecha" value="#{controllerEventos.eventos.fecha}" title="Fecha" />                                   
+                                <p:outputLabel value="Lugar:" for="lugar" />
+                                <p:inputText id="lugar" value="#{controllerEventos.eventos.lugar}" title="Lugar" />
+                            </p:panelGrid>                             
+                            <p:commandButton value="Guardar" action="#{controllerEventos.guardarEvento()}" update=":form-table" onclick="PF('dlg2').hide();"/>
+                        </h:form>
+
+                    </p:dialog>  
+
+                    <h:form id="form-table">
+                        <p:dataTable id="table1" value="#{controllerEventos.eventoList}" var="item" widgetVar="adminTable">
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Fecha"  filterBy="#{item.fecha}" footerText="exact" filterMatchMode="exact"> 
+                               
+                                <f:facet name="filter">
+                                    <p:calendar onchange="PF('adminTable').filter()">
+                                        <p:ajax event="dateSelect"  onsuccess="PF('adminTable').filter()"/>
+                                    </p:calendar>
+                                </f:facet>
+                                <h:outputText value="#{item.fecha}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Lugar"/>
+                                </f:facet>
+                                <h:outputText value="#{item.lugar}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Accion"/>
+                                </f:facet>
+                                <p:commandButton value="Asignar asistentes" action="#{controllerEventos.setEventos(item)}" onclick="PF('dlg4').show();" update=":form-asig"/>
+                            </p:column>
+                        </p:dataTable>
+
+                    </h:form>
+                    <p:dialog header="Modal Dialog" widgetVar="dlg4" modal="true">
+
+                        <h:form id="form-asig">
+                            <h1><h:outputText value="Asignar presonal"/></h1>
+                            <h3><h:outputText value="Evento : #{controllerEventos.eventos.nombre}"/></h3>                            
+                            <h3><h:outputText value="Lugar : #{controllerEventos.eventos.lugar}"/></h3>
+
+
+                            <h1><h:outputText value="List"/></h1>
+                            <p:dataTable value="#{controllerEventos.asistenteList}" var="item">                                    
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nombre}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Apellido"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.apellido}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Identificacion"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.identificacion}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Asignado"/>
+                                    </f:facet>
+                                    <p:commandButton value="#{controllerEventos.findAsis(item)? 'Si':'No'}" 
+                                                     action="#{controllerEventos.asignarOrQuitar(item)}" 
+                                                     update=":form-asig"/>
+                                </p:column>
+                            </p:dataTable>
+
+                        </h:form>
+
+                    </p:dialog>  
+                </p:panel>
+                <p:panel rendered="#{!controllerSession.asistentes.admin}">
+                    <p:dataTable value="#{controllerEventos.eventoList}" var="item" widgetVar="userTable" >
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Fecha"  filterBy="#{item.fecha}" footerText="exact" filterMatchMode="exact"> 
+                               
+                                <f:facet name="filter">
+                                    <p:calendar onchange="PF('userTable').filter()">
+                                        <p:ajax event="dateSelect"  onsuccess="PF('userTable').filter()"/>
+                                    </p:calendar>
+                                </f:facet>
+                                <h:outputText value="#{item.fecha}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Lugar"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lugar}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:panel>                   
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="/plantilla/principal.xhtml">
+
+            <ui:define name="top">
+
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <p:growl autoUpdate="true"></p:growl>
+                    <p:panel>
+                        <h:panelGrid columns="2">
+                            <p:inputText placeholder="Correo Electrónico" size="40" 
+                                         label="Correo Electrónico" 
+                                         value="#{controllerSession.asistentes.correo}"
+                                         >
+                            </p:inputText>
+                            <br/>
+                            <p:password placeholder="Contraseña" size="40" 
+                                        label="Contraseña"
+                                        value="#{controllerSession.asistentes.contrasena}"
+                                        >          
+                            </p:password>   
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2">
+                            <h:commandLink action="vistas/GestionIngresoUsuario">Registrar Usuario</h:commandLink>
+                            <h:commandButton value="Ingresar" 
+                                             action="#{controllerSession.login()}"
+                                             >
+                            </h:commandButton>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+        <br />
+        <h:link outcome="/eventos/List" value="Show All Eventos Items"/>
+        <br />
+        <h:link outcome="/asistentes/List" value="Show All Asistentes Items"/>
+        <br />
+        <h:link outcome="/asistentes/List" value="Show All Asistentes Items"/>
+        <br />
+        <h:link outcome="/eventos/List" value="Show All Eventos Items"/>
+        <br />
+        <h:link outcome="/vistas/eventos/List" value="Show All Eventos Items"/>
+        <br />
+        <h:link outcome="/vistas/asistentes/List" value="Show All Asistentes Items"/>
+        <br />
+        <h:link outcome="/eventos/List" value="Show All Eventos Items"/>
+        <br />
+        <h:link outcome="/asistentes/List" value="Show All Asistentes Items"/>
+        <br />
+        <h:link outcome="/eventos/List" value="Show All Eventos Items"/>
+        <br />
+        <h:link outcome="/asistentes/List" value="Show All Asistentes Items"/>
+    </body>
+
+
+
+
+
+
+
+
+
+
+</html>
